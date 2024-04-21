@@ -5,14 +5,28 @@ function Calculator() {
 
     function calculate() {
         try {
-            setEntry(eval(entry));
+            setEntry(String(eval(entry)).toString());
         } catch {
             setEntry("Error");
         }
     }
 
     function appendValue(value) {
-        setEntry(prev => prev + value);
+        if (entry !== '' && ['+', '-', '*', '/'].includes(value)) {
+            const lastChar = entry[entry.length - 1];
+            if (['+', '-', '*', '/'].includes(lastChar)) {
+                
+                setEntry(entry.slice(0, -1) + value);
+            } else {
+                
+                setEntry(entry + value);
+            }
+        } else {
+            
+            setEntry(entry + value);
+        }
+    
+
     }
 
     function clearEntry() {
@@ -23,22 +37,13 @@ function Calculator() {
         <div>
             <input type="text" value={entry} readOnly />
             <br />
-            <input type="button" value="1" onClick={() => appendValue('1')} />
-            <input type="button" value="2" onClick={() => appendValue('2')} />
-            <input type="button" value="3" onClick={() => appendValue('3')} />
-            <input type="button" value="+" onClick={() => appendValue('+')} />
-            <input type="button" value="4" onClick={() => appendValue('4')}/>
-            <input type="button" value="5" onClick={() => appendValue('5')}/>
-            <input type="button" value="6" onClick={() => appendValue('6')}/>
-            <input type="button" value="-" onClick={() => appendValue('-')}/>
-            <input type="button" value="7" onClick={() => appendValue('7')}/>
-            <input type="button" value="8" onClick={() => appendValue('8')}/>
-            <input type="button" value="9" onClick={() => appendValue('9')}/>
-            <input type="button" value="/" onClick={() => appendValue('/')}/>
-            <input type="button" value="c" onClick={clearEntry} />
-            <input type="button" value="0" onClick={() => appendValue('0')} />
-            <input type="button" value="=" onClick={calculate} />
-            <input type="button" value="x" onClick={() => appendValue('*')} />
+            {['1','2','3','+','4','5','6','-','7','8','9','/','c','0','=','*'].map(key => (
+                <input
+                    type="button"
+                    value={key}
+                    onClick={() => key === 'c' ? clearEntry() : key === '=' ? calculate() : appendValue(key)}
+                />
+            ))}
         </div>
     );
 }
