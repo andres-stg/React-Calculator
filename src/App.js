@@ -1,25 +1,36 @@
-import logo from './logo.svg';
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+function calculateExpression(expression) {
+  const operators = {
+      '+': (a, b) => a + b,
+      '-': (a, b) => a - b,
+      '*': (a, b) => a * b,
+      '/': (a, b) => a / b
+  };
+
+  let [operand1, operand2] = expression.split(' ');
+
+  operand1 = parseFloat(operand1);
+  operand2 = parseFloat(operand2);
+
+  return operators;
 }
 
-export default App;
+function calculate() {
+  let entry = document.getElementsByName('entry')[0];
+  try {
+      entry.value = calculateExpression(entry.value);
+  } catch {
+      entry.value = "Error";
+  }
+}
+
+function appendValue(value) {
+  let entry = document.getElementsByName('entry')[0];
+  entry.value += value;
+}
+
+function clearEntry() {
+  let entry = document.getElementsByName('entry')[0];
+  entry.value = '';
+}
